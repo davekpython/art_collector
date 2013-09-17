@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h2>A New Piece for Da Collection by</h2>
+	
+		<form method="post">
+			<label>
+				<div>Artist</div>
+				<input type="text" name="artist" value="{{artist}}">
+			</label>
+			<label>
+				<div>Subject</div>
+				<input type="text" name="subject" value="{{subject}}">
+			</label>
+			
+			<label>
+				<div>Art - Please specify location</div>
+				<input type="file" name="art_object" size = "40" value="{{art_object}}">
+			</label>
+			
+			<label>
+				<div>Notes</div>
+				<textarea name="content">{{content}}</textarea>
+			</label>
+			
+			<div class="error">{{error}}</div>
+			<br>
+			<br>
+			<br>
+			
+			<input type="submit">
+		</form>
+		
+
+	{% endblock %}
