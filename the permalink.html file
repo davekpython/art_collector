@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+  
+	<p>	<img src="/static/images/sunsetmee.jpg" alt="DgK Cafe" width="450" height="300" class="objectperm">	</p>
+	<br>
+	
+	<ul>
+		<li class="arts">Artist: <span class ="stuff">{{post.artist | safe}}</span></li>
+		
+		<li class="arts">Subject: <span class="stuff">{{post.subject | safe}}</span></li>
+		
+		<li class="arts">Notes:	<span class="stuff">{{post.content | safe}}</span></li>
+		
+		<li class="arts">Object: <span class="stuff">{{post.art_object | safe}}</span></li>
+	</ul>
+
+ 	<p>	</p>
+
+	
+
+
+
+	
+	<div class="ageplace">{{age}}</div>
+
+
+{% endblock %}
