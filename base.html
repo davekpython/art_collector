@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>	
+		<link type="text/css" rel="stylesheet" href="/static/main.css" />
+	
+		<title>Da Collection</title>
+	</head>
+
+	<body>
+		<header>
+			<div class="login-area">
+				<nav>
+					{% if user %}
+
+						<a class="login-link">{{user.name}} </a>
+						|
+						<a class = "login-link" href ="/logout">logout</a>	
+						|
+						<a class="danewpost" href="/newpost">new addition</a>
+						|
+						<a class="danewpost" href="/newpost">edit</a>
+						
+						<form id="searchform" name="searchform" action="/search" method="get" >
+							<input class="text clearonfocus" name="{{action}}" maxlength="222" placeholder="Search"
+							></input>
+							<input class="submit" type="submit" value="Go" ></input>
+						</form>
+
+
+					{% else %}
+						<a class="login-link" href="/login">login</a>
+						|
+						<a class="login-link" href="/signup">signup</a>
+					{% endif %}
+				</nav>
+				
+				<a href="/" class="main-title">	Da Collection </a>
+				
+			</div>
+			</header>
+		
+		<div id="content">
+			{% block content %}
+			
+			{% endblock %}
+			<p></p>
+	
+	
+		</div>
+	</body>
+
+</html>
