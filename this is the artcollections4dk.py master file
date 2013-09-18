@@ -201,7 +201,7 @@ class DownloadArtObject(BlogHandler, BlobstoreDownloadHandler):
 class UploadArtObject(BlogHandler, BlobstoreUploadHandler):
 	def post(self, post_key):
 		post = Post.get(post_key)
-		post.art_object = self.get_uploads(post.art_object)
+		post.art_object = (self.get_uploads(post.art_object)[0])
 		post.put()
 		
 class MainPage(BlogHandler):
