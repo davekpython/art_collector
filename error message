@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "C:\Program Files\Google\google_appengine\lib\webapp2-2.5.2\webapp2.py", line 1535, in __call__
+    rv = self.handle_exception(request, response, e)
+  File "C:\Program Files\Google\google_appengine\lib\webapp2-2.5.2\webapp2.py", line 1529, in __call__
+    rv = self.router.dispatch(request, response)
+  File "C:\Program Files\Google\google_appengine\lib\webapp2-2.5.2\webapp2.py", line 1278, in default_dispatcher
+    return route.handler_adapter(request, response)
+  File "C:\Program Files\Google\google_appengine\lib\webapp2-2.5.2\webapp2.py", line 1102, in __call__
+    return handler.dispatch()
+  File "C:\Program Files\Google\google_appengine\lib\webapp2-2.5.2\webapp2.py", line 572, in dispatch
+    return self.handle_exception(e, self.app.debug)
+  File "C:\Program Files\Google\google_appengine\lib\webapp2-2.5.2\webapp2.py", line 570, in dispatch
+    return method(*args, **kwargs)
+  File "C:\Users\David\documents\code\python\projects\artcollections4dk\artcollections4dk.py", line 291, in post
+    p.put()
+  File "C:\Program Files\Google\google_appengine\google\appengine\ext\db\__init__.py", line 1069, in put
+    self._populate_internal_entity()
+  File "C:\Program Files\Google\google_appengine\google\appengine\ext\db\__init__.py", line 1038, in _populate_internal_entity
+    self._entity = self._populate_entity(_entity_class=_entity_class)
+  File "C:\Program Files\Google\google_appengine\google\appengine\ext\db\__init__.py", line 1109, in _populate_entity
+    self._to_entity(entity)
+  File "C:\Program Files\Google\google_appengine\google\appengine\ext\db\__init__.py", line 1023, in _to_entity
+    self.__set_property(entity, prop.name, prop.get_value_for_datastore(self))
+  File "C:\Program Files\Google\google_appengine\google\appengine\ext\blobstore\blobstore.py", line 629, in get_value_for_datastore
+    return blob_info.key()
+AttributeError: 'list' object has no attribute 'key'
