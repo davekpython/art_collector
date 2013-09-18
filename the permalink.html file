@@ -12,7 +12,7 @@
 		
 		<li class="arts">Notes:	<span class="stuff">{{post.content | safe}}</span></li>
 		
-		<li class="arts">Object: <span class="stuff">{{post.art_object | safe}}</span></li>
+		<li class="arts">Object: <span class="stuff">/download-art-objects/{{post.key()}}</span></li>
 	</ul>
 
  	<p>	</p>
