@@ -192,6 +192,17 @@ def gone(posts):
 		# logging.error("DB id query")
 		if p.artist == "dk":
 			db.delete(p)
+
+class DownloadArtObject(BlogHandler, BlobstoreDownloadHandler):
+	def get(self, post_key):
+		post = Post.get(post_key)
+		self.send_blob(post.art_object)
+
+class UploadArtObject(BlogHandler, BlobstoreUploadHandler):
+	def post(self, post_key):
+		post = Post.get(post_key)
+		post.art_object = self.get_uploads(post.art_object)
+		post.put()
 		
 class MainPage(BlogHandler):
 	def get(self):
@@ -211,7 +222,7 @@ class BlogFront(BlogHandler):
 		else:
 			return self.render_json([p.as_dict() for p in posts])
 			
-class PostPage(BlogHandler):
+class PostPage(BlogHandler, BlobstoreDownloadHandler):
 	def get(self, post_id):
 		key = db.Key.from_path('Post', int(post_id), parent=blog_key())
 		post = db.get(key)
@@ -240,7 +251,7 @@ class Searching(BlogHandler):
 		logging.error("getttting")
 		action = self.request.get('searching')
 		# action = self.searching
-		print action, "action"
+		print action, "action4"
 		logging.error(action)
 
 		posts, age = top_posts()
@@ -253,7 +264,7 @@ class Searching(BlogHandler):
 				thesearch.append(p)
 				self.render("SearchResults.html", thesearch = thesearch)
 			else:
-				self.render("SearchResults.html", thesearch = None)
+				self.render("SearchResults.html", thesearch = thesearch)
 			
 class NewPost(BlogHandler, BlobstoreUploadHandler):
 
@@ -261,10 +272,10 @@ class NewPost(BlogHandler, BlobstoreUploadHandler):
 		posts, age = top_posts()
 		if self.user:
 			logging.error("going to newpost")
-			self.render("newpost.html", posts = posts)
+			self.render("newpost.html", posts = posts, upload_url = blobstore.create_upload_url("/newpost"))
 		else:
 			self.redirect("/login")
-			
+						
 	def post(self):
 		logging.error(" in post of newpost")
 		if not self.user:
@@ -273,7 +284,7 @@ class NewPost(BlogHandler, BlobstoreUploadHandler):
 		artist = self.request.get('artist')			
 		subject = self.request.get('subject')
 		content = self.request.get('content')
-		art_object = self.request.get('art_object')
+		art_object = self.get_uploads('art_object')
 		
 		if subject and content:
 			p = Post(parent = blog_key(), artist = artist, subject = subject, content = content, art_object=art_object)
@@ -382,10 +393,8 @@ class Welcome(BlogHandler):
 			
 class Flush(BlogHandler):
 	def get(self):
-	
 		key = 'top'
-		memcache.set(key, (None,datetime.now()))
-		
+		memcache.set(key, (None,datetime.now()))		
 		self.redirect('/newpost')
 
 	
@@ -399,6 +408,8 @@ app = webapp2.WSGIApplication([('/?(?:\.json)?', MainPage),
 								('/logout', Logout),
 								('/welcome', Welcome),
 								('/flush', Flush),
+								('/download-art-objects/(?P<post_key>[-0-9a-zA-Z]+)', DownloadArtObject),
+								#('/upload-art-objects', UploadArtObject),
 								],
 								debug=True)
 								
