@@ -230,6 +230,7 @@ class PostPage(BlogHandler, BlobstoreDownloadHandler):
 		age = age_str(age)
 		
 		# gone(posts)
+
 		logging.error(post.art_object)
 		logging.error("art object i hope")
 		if self.format == 'html':
@@ -247,44 +248,39 @@ class PostPage(BlogHandler, BlobstoreDownloadHandler):
 
 class Searching(BlogHandler):
 	
-	def get(self):
+	def post(self):
 		logging.error("getttting")
-		action = self.request.get('searching')
-		# action = self.searching
-		print action, "action4"
+		
+		action = self.request.get('action')
 		logging.error(action)
 
 		posts, age = top_posts()
-		logging.error("DB query")		
-
 		thesearch = list()
 		
 		for p in posts:
 			if p.artist == action or p.subject == action or p.content == action:
 				thesearch.append(p)
 				self.render("SearchResults.html", thesearch = thesearch)
-			else:
-				self.render("SearchResults.html", thesearch = thesearch)
+			# else:
+				# self.render("SearchResults.html", thesearch = thesearch)
 			
 class NewPost(BlogHandler, BlobstoreUploadHandler):
 
 	def get(self):
 		posts, age = top_posts()
 		if self.user:
-			logging.error("going to newpost")
 			self.render("newpost.html", posts = posts, upload_url = blobstore.create_upload_url("/newpost"))
 		else:
 			self.redirect("/login")
 						
 	def post(self):
-		logging.error(" in post of newpost")
 		if not self.user:
 			self.redirect('/')
 			
 		artist = self.request.get('artist')			
 		subject = self.request.get('subject')
 		content = self.request.get('content')
-		art_object = self.get_uploads('art_object')
+		art_object = (self.get_uploads('art_object')[0])
 		
 		if subject and content:
 			p = Post(parent = blog_key(), artist = artist, subject = subject, content = content, art_object=art_object)
